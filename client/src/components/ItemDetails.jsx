@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
@@ -24,10 +24,9 @@ function ItemDetails() {
   }
 
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <h2>{item.name}</h2>
-      <p>{item.description}</p>
-      {/* Additional details or structure for displaying the item */}
+      <p style={{ "white-space": "pre-wrap" }}>{item.description}</p>
     </div>
   );
 }

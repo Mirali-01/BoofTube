@@ -7,14 +7,10 @@ app.use(express.json());
 app.use(cors());
 
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Item Schema
 const itemSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   description: { type: String, trim: true },
@@ -22,7 +18,6 @@ const itemSchema = new mongoose.Schema({
 
 const Item = mongoose.model("Item", itemSchema);
 
-// GET all items
 app.get("/items", async (req, res) => {
   try {
     const items = await Item.find();
@@ -32,7 +27,6 @@ app.get("/items", async (req, res) => {
   }
 });
 
-// GET item by ID
 app.get("/items/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -47,7 +41,6 @@ app.get("/items/:id", async (req, res) => {
   }
 });
 
-// POST new item
 app.post("/items", async (req, res) => {
   const { name, description } = req.body;
 
@@ -60,7 +53,6 @@ app.post("/items", async (req, res) => {
   }
 });
 
-// PUT update item by ID
 app.put("/items/:id", async (req, res) => {
   const { id } = req.params;
   const { name, description } = req.body;
@@ -80,7 +72,6 @@ app.put("/items/:id", async (req, res) => {
   }
 });
 
-// DELETE item by ID
 app.delete("/items/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -95,7 +86,6 @@ app.delete("/items/:id", async (req, res) => {
   }
 });
 
-// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
