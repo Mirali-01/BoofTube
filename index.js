@@ -14,6 +14,7 @@ mongoose
 const itemSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   description: { type: String, trim: true },
+  videoUrl: { type: String, trim: true },
 });
 
 const Item = mongoose.model("Item", itemSchema);
@@ -42,10 +43,19 @@ app.get("/items/:id", async (req, res) => {
 });
 
 app.post("/items", async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, videoUrl } = req.body;
 
   try {
-    const newItem = new Item({ name, description });
+    let embeddedUrl = "";
+    if (videoUrl.includes("watch?v=")) {
+      embeddedUrl = videoUrl.replace("watch?v=", "embed/");
+    } else if (videoUrl.includes("youtu.be")) {
+      embeddedUrl = videoUrl.replace("youtu.be", "www.youtube.com/embed");
+    } else {
+      embeddedUrl = videoUrl;
+    }
+
+    const newItem = new Item({ name, description, videoUrl: embeddedUrl });
     const savedItem = await newItem.save();
     res.status(201).json(savedItem);
   } catch (error) {
@@ -55,12 +65,21 @@ app.post("/items", async (req, res) => {
 
 app.put("/items/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, description } = req.body;
+  const { name, description, videoUrl } = req.body;
 
   try {
+    let embeddedUrl = "";
+    if (videoUrl.includes("watch?v=")) {
+      embeddedUrl = videoUrl.replace("watch?v=", "embed/");
+    } else if (videoUrl.includes("youtu.be")) {
+      embeddedUrl = videoUrl.replace("youtu.be", "www.youtube.com/embed");
+    } else {
+      embeddedUrl = videoUrl;
+    }
+
     const updatedItem = await Item.findByIdAndUpdate(
       id,
-      { name, description },
+      { name, description, videoUrl: embeddedUrl },
       { new: true }
     );
     if (!updatedItem) {

@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ScrollToTopButton from "./ScrollToTopButton";
+
+const isValidYouTubeUrl = (url) => {
+  const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+  return youtubeRegex.test(url);
+};
 
 const ItemList = () => {
   const [items, setItems] = useState([]);
@@ -9,6 +15,7 @@ const ItemList = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState(null);
+  const [videoUrl, setVideoUrl] = useState("");
 
   useEffect(() => {
     fetchItems();
@@ -39,6 +46,7 @@ const ItemList = () => {
           _id: editingItem._id,
           name: itemName,
           description: itemDescription,
+          videoUrl: videoUrl,
         };
         await axios.put(
           `http://localhost:5000/items/${editingItem._id}`,
@@ -50,15 +58,25 @@ const ItemList = () => {
         setItems(updatedItems);
         setEditingItem(null);
       } else {
+        const embeddedUrl = getYouTubeEmbedUrl(videoUrl);
+        // Validate videoUrl
+        if (!isValidYouTubeUrl(videoUrl)) {
+          setError(
+            "Invalid YouTube URL! Ex: https://www.youtube.com/watch?v={videoID} OR https://youtu.be/{videoID}"
+          );
+          return;
+        }
         const response = await axios.post("http://localhost:5000/items", {
           name: itemName,
           description: itemDescription,
+          videoUrl: embeddedUrl,
         });
         setItems([...items, response.data]);
         setTimeout(() => scrollToNewlyAddedItem(response.data._id), 100);
       }
       setItemName("");
       setItemDescription("");
+      setVideoUrl("");
       setError("");
     } catch (error) {
       console.error("Error adding/editing item:", error);
@@ -90,12 +108,15 @@ const ItemList = () => {
   const editItem = (item) => {
     setItemName(item.name.trim());
     setItemDescription(item.description);
+    setVideoUrl(item.videoUrl);
     setEditingItem(item);
+    setError("");
   };
 
   const cancelEdit = () => {
     setItemName("");
     setItemDescription("");
+    setVideoUrl("");
     setEditingItem(null);
   };
 
@@ -116,6 +137,23 @@ const ItemList = () => {
     }
   };
 
+  const handleMediaChange = (e) => {
+    setVideoUrl(e.target.value);
+    setError("");
+  };
+
+  const getYouTubeEmbedUrl = (url) => {
+    let embeddedUrl = "";
+    if (url.includes("watch?v=")) {
+      embeddedUrl = url.replace("watch?v=", "embed/");
+    } else if (url.includes("youtu.be")) {
+      embeddedUrl = url.replace("youtu.be", "www.youtube.com/embed");
+    } else {
+      return (embeddedUrl = url);
+    }
+    return embeddedUrl;
+  };
+
   return (
     <div className="container">
       <h1 className="title">Full CRUD App</h1>
@@ -134,6 +172,13 @@ const ItemList = () => {
             value={itemDescription}
             onChange={handleDescriptionChange}
           ></textarea>
+          <input
+            type="text"
+            className="input-field"
+            placeholder="Video URL (YouTube, etc.)"
+            value={videoUrl}
+            onChange={handleMediaChange}
+          />
           {error && <p className="error">{error}</p>}
           <button
             type="submit"
@@ -162,6 +207,18 @@ const ItemList = () => {
               <h3 className="card-title">{item.name}</h3>
               <Link to={`/items/${item._id}`}>View Details</Link>
               <p className="card-description">{item.description}</p>
+              {item.videoUrl && (
+                <div className="video-container">
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src={getYouTubeEmbedUrl(item.videoUrl)}
+                    title={item.name}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              )}
               <div className="card-actions">
                 <button
                   className="edit-button"
@@ -185,6 +242,7 @@ const ItemList = () => {
       ) : (
         <p>No items found.</p>
       )}
+      <ScrollToTopButton />
     </div>
   );
 };
