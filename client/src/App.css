@@ -120,12 +120,22 @@ body {
   }
 
   .go-home-button {
-    display: block;
+    display: inline-block;
     margin-top: 20px;
     text-decoration: none;
     color: #007bff;
     font-weight: bold;
+    border: 1px solid #007bff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
   }
+  
+  .go-home-button:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
 
   .scroll-to-top {
     position: fixed;
@@ -146,5 +156,60 @@ body {
   
   .scroll-to-top:hover {
     background-color: #0056b3;
+  }
+  
+  .item-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    text-align: center;
+    white-space: pre-wrap;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  
+  .navigation-buttons a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .navigation-buttons a:hover {
+    background-color: #333;
+    color: #fff;
   }
   

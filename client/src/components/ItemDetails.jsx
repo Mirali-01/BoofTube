@@ -4,38 +4,55 @@ import { useParams, Link } from "react-router-dom";
 import ScrollToTopButton from "./ScrollToTopButton";
 
 function ItemDetails() {
-  const [item, setItem] = useState(null);
   const { id } = useParams();
+  const [item, setItem] = useState(null);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const fetchItem = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/items/${id}`);
-        setItem(response.data);
-      } catch (error) {
-        console.error("Error fetching item:", error);
-      }
-    };
-
-    fetchItem();
+    fetchItem(id);
   }, [id]);
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const fetchItem = async (itemId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/items/${itemId}`);
+      setItem(response.data);
+    } catch (error) {
+      console.error("Error fetching item:", error);
+    }
+  };
+
+  const fetchItems = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/items");
+      setItems(response.data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
+
+  const getCurrentItemIndex = () => {
+    return items.findIndex((item) => item._id === id);
+  };
 
   if (!item) {
     return <p>Loading...</p>;
   }
 
+  const currentIndex = getCurrentItemIndex();
+
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="item-details">
       <Link to="/" className="go-home-button">
         Go Home
       </Link>
       <h2>{item.name}</h2>
-      <p style={{ whiteSpace: "pre-wrap" }}>{item.description}</p>
       {item.videoUrl && (
         <div className="video-container">
           <iframe
-            width="80%"
-            height="500"
             src={item.videoUrl}
             title={item.name}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -43,6 +60,17 @@ function ItemDetails() {
           ></iframe>
         </div>
       )}
+      <div className="navigation-buttons">
+        {currentIndex > 0 && (
+          <Link to={`/items/${items[currentIndex - 1]._id}`}>
+            &#8592; Previous
+          </Link>
+        )}
+        {currentIndex < items.length - 1 && (
+          <Link to={`/items/${items[currentIndex + 1]._id}`}>Next &#8594;</Link>
+        )}
+      </div>
+      <p>{item.description}</p>
       <ScrollToTopButton />
     </div>
   );
