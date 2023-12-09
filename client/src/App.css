@@ -1,128 +1,131 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+}
 
-  .container {
-    width: 80%;
-    margin: auto;
-    padding: 2rem 0;
-  }
+.container {
+  width: 80%; 
+  margin: auto;
+  padding: 2rem 0;
+}
 
-  .form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-  }
-  
-  .title {
-    text-align: center;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  textarea.input-field {
-    font-family: inherit;
-    min-height: 150px;
-    resize: vertical; 
-  }
-  
-  .add-button,
-  .edit-button,
-  .cancel-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-button:hover,
-  .edit-button:hover,
-  .cancel-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .cancel-button {
-    background-color: #dc3545;
-  }
-  
-  .cancel-button:hover {
-    background-color: #ba2633;
-  }
-  
-  .delete-button {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 0.3rem 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .delete-button:hover {
-    background-color: #ba2633;
-  }
-  
-  .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    min-width: 250px; /* Adjust as needed */
-    max-width: 300px; /* Set a maximum width to limit card width */
-    width: calc(100% - 20px); /* Limit card width to container width */
-    margin: auto; 
-  }  
+.title {
+  text-align: center;
+}
 
-  .card-title {
-    text-align: center;
-    text-decoration: underline;
-  }
-  
-  .card-actions {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .card-actions button {
-    margin-left: 5px;
-  }
-  
-  .card-description {
-    max-height: 150px; 
-    overflow: auto;
-    box-shadow: none;
-    white-space: pre-wrap;
-  }
-  
-  .error {
-    color: #dc3545;
-    margin-top: 0.5rem;
-  }
+.form-container {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr; 
+  gap: 15px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+}
+
+.input-field,
+textarea.input-field {
+  width: 100%;
+  padding: 0.8rem; 
+  font-size: 1rem;
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+  background-color: #3b3b3b;
+  color: #ccc
+}
+
+textarea.input-field {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.add-button,
+.edit-button,
+.cancel-button,
+.delete-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 4px;
+}
+
+.add-button:hover,
+.edit-button:hover,
+.cancel-button:hover,
+.delete-button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+}
+
+.cancel-button:hover {
+  background-color: #ba2633;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #ba2633;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 30px); 
+  margin: auto;
+  text-align: center;
+}
+
+.card-title {
+  text-align: center;
+  text-decoration: underline;
+  margin-bottom: 10px; 
+}
+
+.card-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; 
+}
+
+.card-actions button {
+  margin: 0 5px; 
+}
+
+.card-description {
+  max-height: 150px; 
+  overflow: auto;
+  box-shadow: none;
+  white-space: pre-wrap;
+  font-weight: bold;
+}
+
+.error {
+  color: #dc3545;
+  margin-top: 0.5rem;
+}
+
 
   .go-home-button {
     display: inline-block;
     margin-top: 20px;
-    text-decoration: none;
     color: #007bff;
     font-weight: bold;
     border: 1px solid #007bff;
@@ -132,13 +135,14 @@ body {
   }
   
   .go-home-button:hover {
+    text-decoration: none;
     background-color: #007bff;
     color: #fff;
   }
-  
 
   .scroll-to-top {
     position: fixed;
+    z-index: 1000;
     bottom: 20px;
     right: 20px;
     padding: 10px;
@@ -148,15 +152,23 @@ body {
     color: white;
     font-size: 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: opacity 0.3s ease-in-out, background-color 0.3s ease, visibility 0.3s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0; 
+    visibility: hidden; 
+  }
+  
+  .scroll-to-top.show {
+    opacity: 1; 
+    visibility: visible; 
   }
   
   .scroll-to-top:hover {
     background-color: #0056b3;
   }
+  
   
   .item-details {
     max-width: 800px;
@@ -176,6 +188,17 @@ body {
     margin-bottom: 20px;
   }
   
+a {
+  color: #007bff; 
+  text-decoration: none; 
+  transition: color 0.3s ease-in-out; 
+}
+
+a:hover {
+  color: #0056b3; 
+  text-decoration: underline; 
+}
+ 
   .video-container {
     position: relative;
     width: 100%;
@@ -191,6 +214,12 @@ body {
     width: 100%;
     height: 100%;
   }
+
+  .noVideo{
+    border: solid #fff;
+    text-align: center;
+    font-size: 20px;
+  }
   
   .navigation-buttons {
     display: flex;
@@ -202,14 +231,14 @@ body {
   .navigation-buttons a {
     text-decoration: none;
     padding: 8px 12px;
-    border: 1px solid #333;
+    border: 1px solid #fff;
     border-radius: 4px;
-    color: #333;
+    color: #fff;
     transition: background-color 0.3s, color 0.3s;
   }
   
   .navigation-buttons a:hover {
-    background-color: #333;
-    color: #fff;
+    background-color: #fff;
+    color: #333;
   }
   

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import ScrollToTopButton from "./ScrollToTopButton";
 
 const isValidYouTubeUrl = (url) => {
   const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
@@ -59,7 +58,6 @@ const ItemList = () => {
         setEditingItem(null);
       } else {
         const embeddedUrl = getYouTubeEmbedUrl(videoUrl);
-        // Validate videoUrl
         if (!isValidYouTubeUrl(videoUrl)) {
           setError(
             "Invalid YouTube URL! Ex: https://www.youtube.com/watch?v={videoID} OR https://youtu.be/{videoID}"
@@ -205,7 +203,7 @@ const ItemList = () => {
           {items.map((item) => (
             <div key={item._id} id={`item-${item._id}`} className="card">
               <h3 className="card-title">{item.name}</h3>
-              <Link to={`/items/${item._id}`}>View Details</Link>
+              <Link to={`/items/${item._id}`}>View</Link>
               <p className="card-description">{item.description}</p>
               {item.videoUrl && (
                 <div className="video-container">
@@ -242,7 +240,6 @@ const ItemList = () => {
       ) : (
         <p>No items found.</p>
       )}
-      <ScrollToTopButton />
     </div>
   );
 };

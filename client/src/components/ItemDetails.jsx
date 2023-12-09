@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import ScrollToTopButton from "./ScrollToTopButton";
 
 function ItemDetails() {
   const { id } = useParams();
@@ -50,7 +49,7 @@ function ItemDetails() {
         Go Home
       </Link>
       <h2>{item.name}</h2>
-      {item.videoUrl && (
+      {item.videoUrl ? (
         <div className="video-container">
           <iframe
             src={item.videoUrl}
@@ -59,6 +58,8 @@ function ItemDetails() {
             allowFullScreen
           ></iframe>
         </div>
+      ) : (
+        <div className="video-container noVideo">No Video Available</div>
       )}
       <div className="navigation-buttons">
         {currentIndex > 0 && (
@@ -70,8 +71,10 @@ function ItemDetails() {
           <Link to={`/items/${items[currentIndex + 1]._id}`}>Next &#8594;</Link>
         )}
       </div>
+      <h2 style={{ textAlign: "center", textDecoration: "underline" }}>
+        Lyrics
+      </h2>
       <p>{item.description}</p>
-      <ScrollToTopButton />
     </div>
   );
 }
