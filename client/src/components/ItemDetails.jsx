@@ -56,7 +56,7 @@ function ItemDetails() {
             title={item.name}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          ></iframe>
+          />
         </div>
       ) : (
         <div className="video-container noVideo">No Video Available</div>

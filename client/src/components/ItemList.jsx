@@ -72,10 +72,7 @@ const ItemList = () => {
         setItems([...items, response.data]);
         setTimeout(() => scrollToNewlyAddedItem(response.data._id), 100);
       }
-      setItemName("");
-      setItemDescription("");
-      setVideoUrl("");
-      setError("");
+      clearItem();
     } catch (error) {
       console.error("Error adding/editing item:", error);
       setError("Error adding item. Please try again.");
@@ -87,6 +84,13 @@ const ItemList = () => {
     if (newItemCard) {
       newItemCard.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  };
+
+  const clearItem = () => {
+    setItemName("");
+    setItemDescription("");
+    setVideoUrl("");
+    setError("");
   };
 
   const deleteItem = async (id) => {
@@ -178,22 +182,27 @@ const ItemList = () => {
             onChange={handleMediaChange}
           />
           {error && <p className="error">{error}</p>}
-          <button
-            type="submit"
-            className="add-button"
-            disabled={!itemName.trim()}
-          >
-            {editingItem ? "Edit Item" : "Add Item"}
-          </button>
-          {editingItem && (
+          <div className="button-container">
             <button
-              type="button"
-              className="cancel-button"
-              onClick={cancelEdit}
+              type="submit"
+              className="add-button"
+              disabled={!itemName.trim()}
             >
-              Cancel
+              {editingItem ? "Edit" : "Add"}
             </button>
-          )}
+            {editingItem && (
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={cancelEdit}
+              >
+                Cancel
+              </button>
+            )}
+            <button type="button" className="clear-button" onClick={clearItem}>
+              Clear
+            </button>
+          </div>
         </div>
       </form>
       {loading ? (
@@ -214,7 +223,7 @@ const ItemList = () => {
                     title={item.name}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                  ></iframe>
+                  />
                 </div>
               )}
               <div className="card-actions">
