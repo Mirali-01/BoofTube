@@ -6,6 +6,7 @@ function ItemDetails() {
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [items, setItems] = useState([]);
+  const [youtubeUrl, setYoutubeUrl] = useState(null);
 
   useEffect(() => {
     fetchItem(id);
@@ -19,6 +20,9 @@ function ItemDetails() {
     try {
       const response = await axios.get(`http://localhost:5000/items/${itemId}`);
       setItem(response.data);
+      if (response.data.videoUrl.includes("embed/")) {
+        setYoutubeUrl(response.data.videoUrl.replace("embed/", "watch?v="));
+      }
     } catch (error) {
       console.error("Error fetching item:", error);
     }
@@ -43,11 +47,25 @@ function ItemDetails() {
 
   const currentIndex = getCurrentItemIndex();
 
+  const handleDownload = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/download", {
+        videoUrl: youtubeUrl,
+      });
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error downloading video:", error);
+    }
+  };
+
   return (
     <div className="item-details">
       <Link to="/" className="go-home-button">
         Go Home
       </Link>
+      <button className="download-button" onClick={handleDownload}>
+        Download
+      </button>
       <h2>{item.name}</h2>
       {item.videoUrl ? (
         <div className="video-container">
@@ -71,10 +89,14 @@ function ItemDetails() {
           <Link to={`/items/${items[currentIndex + 1]._id}`}>Next &#8594;</Link>
         )}
       </div>
-      <h2 style={{ textAlign: "center", textDecoration: "underline" }}>
-        Lyrics
-      </h2>
-      <p>{item.description}</p>
+      {item.description && (
+        <>
+          <h2 style={{ textAlign: "center", textDecoration: "underline" }}>
+            Lyrics
+          </h2>
+          <p>{item.description}</p>
+        </>
+      )}
     </div>
   );
 }

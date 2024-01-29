@@ -1,7 +1,8 @@
-/* Colors */
 :root {
   --primary-color: #007bff;
   --secondary-color: #0056b3;
+  --download-primary: #ffa500;
+  --download-secondary: #c4840d;
   --danger-color: #dc3545;
   --dark-gray: #3b3b3b;
   --light-gray: #ccc;
@@ -9,7 +10,6 @@
   --black: #000;
 }
 
-/* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -28,7 +28,6 @@ body {
   text-align: center;
 }
 
-/* Form Styles */
 .form-container {
   display: grid;
   justify-items: center;
@@ -71,7 +70,6 @@ textarea.input-field {
   }
 }
 
-/* Button Styles */
 .add-button,
 .edit-button,
 .cancel-button,
@@ -120,7 +118,6 @@ textarea.input-field {
   background-color: var(--light-gray);
 }
 
-/* Card Styles */
 .cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -181,6 +178,23 @@ textarea.input-field {
   text-decoration: none;
   background-color: var(--primary-color);
   color: var(--white);
+}
+
+.download-button {
+  background-color: var(--download-primary);
+  color: var(--white);
+  border: none;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 4px;
+  margin: auto;
+  display: block;
+  margin-top: 20px;
+}
+
+.download-button:hover {
+  background-color: var(--download-secondary);
 }
 
 .scroll-to-top {

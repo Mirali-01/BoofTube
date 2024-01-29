@@ -158,7 +158,7 @@ const ItemList = () => {
 
   return (
     <div className="container">
-      <h1 className="title">Full CRUD App</h1>
+      <h1 className="title">BoofTube</h1>
       <form onSubmit={addItem}>
         <div className="form-container">
           <input
@@ -177,7 +177,7 @@ const ItemList = () => {
           <input
             type="text"
             className="input-field"
-            placeholder="Video URL (YouTube, etc.)"
+            placeholder="YouTube URL"
             value={videoUrl}
             onChange={handleMediaChange}
           />

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { spawn } = require("child_process");
 
 const app = express();
 app.use(express.json());
@@ -18,6 +19,36 @@ const itemSchema = new mongoose.Schema({
 });
 
 const Item = mongoose.model("Item", itemSchema);
+
+app.post("/download", async (req, res) => {
+  const { videoUrl } = req.body;
+
+  try {
+    // Run the Python script as a subprocess with the videoUrl parameter
+    const pythonProcess = spawn("python3", [
+      "/Users/Sakil/Desktop/projects/crud-api/youtube-video-downloader.py",
+      videoUrl,
+    ]);
+
+    pythonProcess.stdout.on("data", (data) => {
+      console.log(`Python script output: ${data}`);
+    });
+
+    pythonProcess.stderr.on("data", (data) => {
+      console.error(`Python script error: ${data}`);
+    });
+
+    pythonProcess.on("close", (code) => {
+      if (code === 0) {
+        res.status(200).json({ message: "Video downloaded successfully!" });
+      } else {
+        res.status(500).json({ message: "Error downloading video" });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error downloading video" });
+  }
+});
 
 app.get("/items", async (req, res) => {
   try {
