@@ -26,7 +26,7 @@ app.post("/download", async (req, res) => {
   try {
     // Run the Python script as a subprocess with the videoUrl parameter
     const pythonProcess = spawn("python3", [
-      "/Users/Sakil/Desktop/projects/crud-api/youtube-video-downloader.py",
+      "/Users/Sakil/Desktop/projects/BoofTube/youtube-video-downloader.py",
       videoUrl,
     ]);
 
